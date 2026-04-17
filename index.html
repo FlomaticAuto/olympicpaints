@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Olympic Paints — Rep Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal:#1a5f57;--teal-dark:#0f3d38;--teal-light:#e8f5f3;--teal-mid:#2d8a7e;
+  --gold:#f5c518;--gold-dark:#c9a000;--gold-light:rgba(245,197,24,0.12);
+  --dark:#0d1f1e;--surface:#f2f7f6;--white:#ffffff;
+  --text-primary:#0d1f1e;--text-secondary:#4a6b68;--text-muted:#8fa8a5;
+  --border:#d0e8e5;--border-strong:#a8cec9;
+  --danger:#c0392b;--danger-light:#fdf0ee;
+  --success:#1a7a6e;--success-light:#e8f5f3;
+  --warning:#a07800;--warning-light:rgba(245,197,24,0.1);
+  --font-body:'DM Sans',sans-serif;--font-display:'Playfair Display',serif;
+  --radius:14px;--radius-sm:9px;--radius-xs:6px;
+  --shadow:0 2px 20px rgba(13,31,30,0.08);--shadow-md:0 4px 32px rgba(13,31,30,0.12);
+  --nav-h:64px;
+}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--surface);color:var(--text-primary);min-height:100vh;font-size:15px;line-height:1.6}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:3px}
+
+/* ─── NAV ─── */
+nav{
+  background:var(--dark);height:var(--nav-h);padding:0 2rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.nav-logo{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none}
+.logo-circle{
+  width:40px;height:40px;background:var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:var(--font-display);font-size:8.5px;font-weight:700;
+  color:var(--dark);text-align:center;line-height:1.2;letter-spacing:-0.2px;
+  padding:4px;
+}
+.nav-brand{color:var(--white);font-size:14px;font-weight:500;letter-spacing:0.3px}
+.nav-brand span{color:rgba(255,255,255,0.4);font-weight:300}
+.nav-links{display:flex;gap:2px}
+.nav-link{
+  color:rgba(255,255,255,0.55);font-size:13px;padding:7px 16px;
+  border-radius:20px;cursor:pointer;transition:all 0.18s;
+  border:none;background:none;font-family:var(--font-body);font-weight:400;
+}
+.nav-link:hover{color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.07)}
+.nav-link.active{color:var(--white);background:rgba(255,255,255,0.12);font-weight:500}
+.nav-right{display:flex;align-items:center;gap:10px}
+.sm-badge{
+  background:rgba(245,197,24,0.14);color:var(--gold);
+  font-size:12px;font-weight:500;padding:5px 14px;
+  border-radius:20px;border:1px solid rgba(245,197,24,0.28);
+  letter-spacing:0.2px;
+}
+.logout-btn{
+  background:none;border:1px solid rgba(255,255,255,0.18);
+  color:rgba(255,255,255,0.6);font-size:12px;padding:6px 14px;
+  border-radius:20px;cursor:pointer;font-family:var(--font-body);
+  transition:all 0.18s;
+}
+.logout-btn:hover{border-color:rgba(255,255,255,0.45);color:var(--white)}
+
+/* ─── PAGES ─── */
+.page{display:none}
+.page.active{display:block;animation:fadeUp 0.28s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ─── LOGIN ─── */
+#page-login{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:var(--dark);
+  position:fixed;inset:0;z-index:200;
+}
+.login-wrap{width:100%;max-width:420px;padding:1rem}
+.login-card{
+  background:var(--white);border-radius:20px;
+  padding:2.5rem 2.5rem 2rem;text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,0.4);
+}
+.login-logo{
+  width:72px;height:72px;background:var(--gold);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;
+  font-family:var(--font-display);font-size:14px;font-weight:700;
+  color:var(--dark);line-height:1.2;text-align:center;padding:8px;
+}
+.login-title{font-family:var(--font-display);font-size:24px;color:var(--dark);margin-bottom:0.25rem;font-weight:700}
+.login-sub{color:var(--text-secondary);font-size:13.5px;margin-bottom:2rem}
+.login-divider{height:1px;background:var(--border);margin:0 -2.5rem 1.5rem}
+.login-field{margin-bottom:1rem;text-align:left}
+.login-field label{display:block;font-size:11.5px;font-weight:600;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.6px}
+.login-field select,.login-field input{
+  width:100%;padding:11px 14px;
+  border:1.5px solid var(--border);border-radius:var(--radius-sm);
+  font-size:14px;font-family:var(--font-body);color:var(--text-primary);
+  background:var(--surface);transition:border-color 0.18s,box-shadow 0.18s;outline:none;
+  -webkit-appearance:none;appearance:none;
+}
+.login-field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a6b68' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.login-field select:focus,.login-field input:focus{border-color:var(--teal-mid);box-shadow:0 0 0 3px rgba(45,138,126,0.12);background:var(--white)}
+.login-btn{
+  width:100%;padding:13px;background:var(--teal);color:var(--white);
+  border:none;border-radius:var(--radius-sm);font-size:15px;font-weight:500;
+  cursor:pointer;font-family:var(--font-body);margin-top:0.25rem;
+  transition:background 0.18s,transform 0.1s;letter-spacing:0.2px;
+}
+.login-btn:hover{background:var(--teal-mid)}
+.login-btn:active{transform:scale(0.99)}
+.login-error{color:var(--danger);font-size:13px;margin-top:0.6rem;padding:8px 12px;background:var(--danger-light);border-radius:var(--radius-xs);display:none;text-align:left}
+.login-hint{font-size:11px;color:var(--text-muted);margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--border)}
+.login-hint strong{color:var(--text-secondary)}
+
+/* ─── HERO ─── */
+.hero{
+  background:var(--teal-dark);padding:3rem 2.5rem 2.5rem;
+  color:var(--white);position:relative;overflow:hidden;
+}
+.hero-bg{position:absolute;inset:0;pointer-events:none}
+.hero-circle-1{position:absolute;right:-60px;top:-80px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(245,197,24,0.08);background:transparent}
+.hero-circle-2{position:absolute;right:40px;top:20px;width:180px;height:180px;border-radius:50%;border:1px solid rgba(245,197,24,0.05);background:rgba(245,197,24,0.03)}
+.hero-circle-3{position:absolute;left:-40px;bottom:-60px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);background:transparent}
+.hero-inner{max-width:1000px;margin:0 auto;position:relative}
+.hero-eyebrow{font-size:11px;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:0.6rem;display:flex;align-items:center;gap:8px}
+.hero-eyebrow::before{content:'';display:inline-block;width:20px;height:1.5px;background:var(--gold)}
+.hero-title{font-family:var(--font-display);font-size:34px;font-weight:700;margin-bottom:0.4rem;line-height:1.15}
+.hero-sub{color:rgba(255,255,255,0.6);font-size:14.5px;font-weight:300}
+.hero-stats{display:flex;gap:0;margin-top:2.5rem;border-top:1px solid rgba(255,255,255,0.08);padding-top:2rem}
+.hero-stat{padding-right:2.5rem;margin-right:2.5rem;border-right:1px solid rgba(255,255,255,0.1)}
+.hero-stat:last-child{border-right:none}
+.hero-stat-num{font-family:var(--font-display);font-size:30px;font-weight:700;color:var(--gold);line-height:1}
+.hero-stat-label{font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px}
+
+/* ─── CONTENT ─── */
+.content{max-width:1040px;margin:0 auto;padding:2.5rem 2rem}
+.section-heading{margin-bottom:2rem}
+.section-heading h2{font-family:var(--font-display);font-size:22px;color:var(--dark);font-weight:700;margin-bottom:0.2rem}
+.section-heading p{font-size:13.5px;color:var(--text-secondary)}
+.section-heading .underline{width:36px;height:3px;background:var(--gold);border-radius:2px;margin-top:0.6rem}
+
+/* ─── QUICK ACCESS GRID ─── */
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:3rem}
+.quick-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);padding:1.5rem;
+  cursor:pointer;transition:all 0.2s;
+}
+.quick-card:hover{border-color:var(--teal-mid);box-shadow:var(--shadow);transform:translateY(-2px)}
+.qc-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem}
+.qc-icon{
+  width:46px;height:46px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+}
+.qc-icon.teal{background:var(--teal-light)}
+.qc-icon.gold{background:var(--gold-light)}
+.qc-icon.red{background:var(--danger-light)}
+.qc-arrow{color:var(--text-muted);font-size:18px;font-weight:300;transition:transform 0.2s}
+.quick-card:hover .qc-arrow{transform:translate(2px,-2px);color:var(--teal)}
+.qc-title{font-weight:600;font-size:14.5px;color:var(--dark);margin-bottom:0.3rem}
+.qc-desc{font-size:12.5px;color:var(--text-secondary);line-height:1.55}
+
+/* ─── FORM TABS ─── */
+.tabs-bar{
+  display:flex;gap:0;margin-bottom:2rem;
+  border-bottom:2px solid var(--border);
+}
+.tab-btn{
+  padding:10px 22px;border:none;background:none;
+  font-size:13.5px;font-weight:500;color:var(--text-secondary);
+  cursor:pointer;font-family:var(--font-body);
+  border-bottom:2.5px solid transparent;margin-bottom:-2px;
+  transition:all 0.18s;
+}
+.tab-btn:hover{color:var(--teal)}
+.tab-btn.active{color:var(--teal);border-bottom-color:var(--teal)}
+
+/* ─── FORM CARD ─── */
+.form-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);padding:2rem 2rem 1.75rem;
+}
+.form-card-header{margin-bottom:1.75rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)}
+.form-card-title{font-family:var(--font-display);font-size:19px;color:var(--dark);font-weight:700;margin-bottom:0.2rem}
+.form-card-sub{font-size:13px;color:var(--text-secondary)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-row.cols-3{grid-template-columns:1fr 1fr 1fr}
+.form-row.full{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11.5px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:0.5px}
+.field input,.field select,.field textarea{
+  padding:10px 13px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);font-size:14px;font-family:var(--font-body);
+  color:var(--text-primary);background:var(--surface);
+  outline:none;transition:border-color 0.18s,box-shadow 0.18s;
+  -webkit-appearance:none;appearance:none;
+}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a6b68' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--teal-mid);background:var(--white);box-shadow:0 0 0 3px rgba(45,138,126,0.1)}
+.field textarea{resize:vertical;min-height:96px;line-height:1.55}
+.field-note{font-size:11px;color:var(--text-muted);margin-top:2px}
+
+/* ─── STAR RATING ─── */
+.stars{display:flex;gap:6px;margin-top:4px}
+.star{
+  width:36px;height:36px;border-radius:50%;
+  border:1.5px solid var(--border);background:var(--surface);
+  cursor:pointer;font-size:13px;font-weight:600;color:var(--text-muted);
+  transition:all 0.15s;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-body);
+}
+.star:hover,.star.on{background:var(--teal);border-color:var(--teal);color:var(--white)}
+
+/* ─── FORM FOOTER ─── */
+.form-footer{display:flex;align-items:center;justify-content:space-between;margin-top:1.75rem;padding-top:1.5rem;border-top:1px solid var(--border);flex-wrap:wrap;gap:0.75rem}
+.form-footer-note{font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:6px}
+.submit-btn{
+  background:var(--teal);color:var(--white);border:none;
+  padding:12px 28px;border-radius:var(--radius-sm);font-size:14px;
+  font-weight:500;cursor:pointer;font-family:var(--font-body);
+  transition:background 0.18s,transform 0.1s;display:flex;align-items:center;gap:8px;
+}
+.submit-btn:hover{background:var(--teal-mid)}
+.submit-btn:active{transform:scale(0.98)}
+.submit-btn svg{width:14px;height:14px;flex-shrink:0}
+
+/* ─── SUCCESS NOTICE ─── */
+.success-notice{
+  display:none;background:var(--success-light);border:1px solid rgba(26,122,110,0.3);
+  color:var(--success);padding:12px 16px;border-radius:var(--radius-sm);
+  font-size:13.5px;margin-bottom:1.25rem;
+  animation:fadeUp 0.2s ease;
+  display:none;align-items:center;gap:10px;
+}
+.success-notice.show{display:flex}
+.success-notice svg{flex-shrink:0;width:16px;height:16px}
+
+/* ─── NOTICE BAR ─── */
+.notice-bar{
+  background:var(--warning-light);border:1px solid rgba(245,197,24,0.35);
+  border-radius:var(--radius-sm);padding:10px 14px;font-size:13px;
+  color:var(--text-secondary);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:8px;
+}
+.notice-bar strong{color:var(--warning)}
+
+/* ─── MARKETING ─── */
+.mat-section{margin-bottom:2.25rem}
+.mat-section-label{
+  font-size:11px;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:1.2px;
+  margin-bottom:0.75rem;display:flex;align-items:center;gap:8px;
+}
+.mat-section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.mat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:0.85rem}
+.mat-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:1.1rem;
+  display:flex;flex-direction:column;gap:6px;
+  transition:all 0.18s;cursor:pointer;
+}
+.mat-card:hover{border-color:var(--teal-mid);box-shadow:0 3px 16px rgba(26,95,87,0.1);transform:translateY(-1px)}
+.mat-card-top{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.mat-file-icon{
+  width:34px;height:34px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;
+}
+.mat-file-icon.pdf{background:#fde8e8}
+.mat-file-icon.doc{background:#e8eeff}
+.mat-file-icon.tds{background:var(--teal-light)}
+.mat-file-icon.msds{background:rgba(245,197,24,0.12)}
+.mat-name{font-size:13px;font-weight:500;color:var(--dark);line-height:1.3}
+.mat-meta{font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:6px}
+.mat-tag{
+  font-size:10px;font-weight:600;padding:2px 8px;border-radius:8px;
+  text-transform:uppercase;letter-spacing:0.4px;width:fit-content;
+}
+.mat-tag.pending{background:rgba(245,197,24,0.14);color:var(--gold-dark)}
+.mat-tag.ready{background:var(--success-light);color:var(--success)}
+.mat-action{
+  margin-top:auto;font-size:12px;font-weight:500;color:var(--teal-mid);
+  display:flex;align-items:center;gap:4px;padding-top:6px;
+  border-top:1px solid var(--border);
+}
+
+/* ─── MERCHANDISING ─── */
+.merch-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:0.75rem}
+.merch-sm-tag{background:var(--teal-light);color:var(--teal);font-size:13px;font-weight:500;padding:6px 14px;border-radius:20px}
+.add-btn{
+  background:var(--teal);color:var(--white);border:none;
+  padding:9px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:500;
+  cursor:pointer;font-family:var(--font-body);display:flex;align-items:center;gap:6px;
+  transition:background 0.18s;
+}
+.add-btn:hover{background:var(--teal-mid)}
+.merch-table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.merch-table{width:100%;border-collapse:collapse}
+.merch-table th{
+  background:var(--teal-dark);color:rgba(255,255,255,0.85);
+  padding:12px 18px;font-size:11.5px;font-weight:600;
+  text-align:left;text-transform:uppercase;letter-spacing:0.7px;
+}
+.merch-table td{padding:13px 18px;font-size:13.5px;border-bottom:1px solid var(--border);vertical-align:middle}
+.merch-table tbody tr:last-child td{border-bottom:none}
+.merch-table tbody tr:hover td{background:var(--teal-light)}
+.drive-link{
+  color:var(--teal-mid);text-decoration:none;font-weight:500;
+  display:inline-flex;align-items:center;gap:5px;font-size:13px;
+}
+.drive-link:hover{color:var(--teal)}
+.badge{padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600}
+.badge.new{background:var(--success-light);color:var(--success)}
+.badge.pending{background:var(--warning-light);color:var(--warning)}
+.empty-row td{text-align:center;color:var(--text-muted);padding:3rem!important;font-size:14px}
+
+/* ─── MODAL ─── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(13,31,30,0.55);
+  z-index:300;display:none;align-items:center;justify-content:center;
+  padding:1rem;backdrop-filter:blur(3px);
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--white);border-radius:var(--radius);
+  padding:2rem;width:100%;max-width:480px;
+  box-shadow:var(--shadow-md);
+  animation:fadeUp 0.22s ease;
+}
+.modal-title{font-family:var(--font-display);font-size:19px;font-weight:700;color:var(--dark);margin-bottom:1.5rem}
+.modal-field{margin-bottom:1rem}
+.modal-field label{display:block;font-size:11.5px;font-weight:600;color:var(--text-secondary);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px}
+.modal-field input,.modal-field select{
+  width:100%;padding:10px 13px;border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);font-size:14px;font-family:var(--font-body);
+  color:var(--text-primary);background:var(--surface);outline:none;
+  transition:border-color 0.18s;
+}
+.modal-field input:focus,.modal-field select:focus{border-color:var(--teal-mid)}
+.modal-row{display:grid;grid-template-columns:1fr 1fr;gap:0.85rem}
+.modal-footer{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.btn-ghost{
+  background:none;border:1.5px solid var(--border);color:var(--text-secondary);
+  padding:9px 20px;border-radius:var(--radius-sm);font-size:13.5px;
+  cursor:pointer;font-family:var(--font-body);transition:all 0.18s;
+}
+.btn-ghost:hover{border-color:var(--border-strong);color:var(--text-primary)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:768px){
+  .quick-grid{grid-template-columns:1fr 1fr}
+  .hero-title{font-size:26px}
+  .form-row{grid-template-columns:1fr}
+  .form-row.cols-3{grid-template-columns:1fr}
+  .hero-stats{flex-wrap:wrap;gap:1.5rem}
+  .hero-stat{border-right:none}
+  .hero{padding:2rem 1.25rem}
+  nav{padding:0 1rem}
+  .nav-links{display:none}
+  .content{padding:1.5rem 1rem}
+}
+@media(max-width:480px){
+  .quick-grid{grid-template-columns:1fr}
+  .login-card{padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══ -->
+<div id="page-login">
+  <div class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo">OLYMPIC<br>PAINTS</div>
+      <h1 class="login-title">Sales Rep Portal</h1>
+      <p class="login-sub">Sign in with your Sales Manager credentials to continue</p>
+      <div class="login-divider"></div>
+      <div class="login-field">
+        <label>Sales Manager</label>
+        <select id="login-sm">
+          <option value="">— Select your name —</option>
+          <option value="AC">Aboo Cassim</option>
+          <option value="AP">Amit Patel</option>
+          <option value="BV">Bhadresh Vallabh</option>
+          <option value="BM">Byron Minnie</option>
+          <option value="NP">Nikhil Panchal</option>
+        </select>
+      </div>
+      <div class="login-field">
+        <label>PIN</label>
+        <input type="password" id="login-pin" placeholder="Enter your 4-digit PIN" maxlength="4" onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <div class="login-error" id="login-error">Incorrect PIN — please try again.</div>
+      <button class="login-btn" onclick="doLogin()">Sign In →</button>
+      <div class="login-hint"><strong>Demo PINs:</strong> AC=1234 · AP=2345 · BV=3456 · BM=4567 · NP=5678</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAVIGATION ═══ -->
+<nav id="main-nav" style="display:none">
+  <a class="nav-logo" href="#" onclick="showPage('dashboard');return false">
+    <div class="logo-circle">OLYMPIC<br>PAINTS</div>
+    <span class="nav-brand">Rep Portal <span>· Olympic Paints</span></span>
+  </a>
+  <div class="nav-links">
+    <button class="nav-link active" id="nl-dashboard" onclick="showPage('dashboard')">Dashboard</button>
+    <button class="nav-link" id="nl-forms" onclick="showPage('forms')">Forms</button>
+    <button class="nav-link" id="nl-marketing" onclick="showPage('marketing')">Marketing</button>
+    <button class="nav-link" id="nl-merchandising" onclick="showPage('merchandising')">Merchandising</button>
+  </div>
+  <div class="nav-right">
+    <span class="sm-badge" id="nav-sm-badge">SM</span>
+    <button class="logout-btn" onclick="doLogout()">Sign out</button>
+  </div>
+</nav>
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page" id="page-dashboard">
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-circle-1"></div>
+      <div class="hero-circle-2"></div>
+      <div class="hero-circle-3"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Olympic Paints — Sales Portal</div>
+      <h1 class="hero-title" id="hero-greeting">Welcome back</h1>
+      <p class="hero-sub">Access your forms, marketing materials and merchandising reports all in one place.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">4</div>
+          <div class="hero-stat-label">Active forms</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">14</div>
+          <div class="hero-stat-label">Materials available</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="stat-reports">0</div>
+          <div class="hero-stat-label">Merch reports</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="section-heading">
+      <h2>Quick Access</h2>
+      <p>Jump directly to any section of the portal</p>
+      <div class="underline"></div>
+    </div>
+    <div class="quick-grid">
+      <div class="quick-card" onclick="showPage('forms');setTab('complaint')">
+        <div class="qc-top">
+          <div class="qc-icon red">🗂️</div>
+          <span class="qc-arrow">↗</span>
+        </div>
+        <div class="qc-title">Complaints & Feedback</div>
+        <div class="qc-desc">Log customer complaints and feedback for follow-up and resolution.</div>
+      </div>
+      <div class="quick-card" onclick="showPage('forms');setTab('email')">
+        <div class="qc-top">
+          <div class="qc-icon teal">✉️</div>
+          <span class="qc-arrow">↗</span>
+        </div>
+        <div class="qc-title">Email Subscription</div>
+        <div class="qc-desc">Add customers to the Olympic Paints newsletter and promotions list.</div>
+      </div>
+      <div class="quick-card" onclick="showPage('forms');setTab('visit')">
+        <div class="qc-top">
+          <div class="qc-icon teal">🏪</div>
+          <span class="qc-arrow">↗</span>
+        </div>
+        <div class="qc-title">Store Visit Form</div>
+        <div class="qc-desc">Book and document an upcoming merchandising store visit via JotForm.</div>
+      </div>
+      <div class="quick-card" onclick="showPage('forms');setTab('return')">
+        <div class="qc-top">
+          <div class="qc-icon gold">📦</div>
+          <span class="qc-arrow">↗</span>
+        </div>
+        <div class="qc-title">Stock Return</div>
+        <div class="qc-desc">Submit a stock return request — requires SM authorisation to process.</div>
+      </div>
+      <div class="quick-card" onclick="showPage('marketing')">
+        <div class="qc-top">
+          <div class="qc-icon gold">📋</div>
+          <span class="qc-arrow">↗</span>
+        </div>
+        <div class="qc-title">Marketing Materials</div>
+        <div class="qc-desc">Price lists, TDS, MSDS, product guides and brochures.</div>
+      </div>
+      <div class="quick-card" onclick="showPage('merchandising')">
+        <div class="qc-top">
+          <div class="qc-icon teal">📊</div>
+          <span class="qc-arrow">↗</span>
+        </div>
+        <div class="qc-title">Merchandising Reports</div>
+        <div class="qc-desc">View and add Google Drive merchandising report links for your area.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FORMS ═══ -->
+<div class="page" id="page-forms">
+  <div class="content" style="padding-top:2rem">
+    <div class="section-heading">
+      <h2>Forms</h2>
+      <p>Select a form below to complete and submit</p>
+      <div class="underline"></div>
+    </div>
+    <div class="tabs-bar">
+      <button class="tab-btn active" id="tab-complaint" onclick="setTab('complaint')">Complaints &amp; Feedback</button>
+      <button class="tab-btn" id="tab-email" onclick="setTab('email')">Email Subscription</button>
+      <button class="tab-btn" id="tab-visit" onclick="setTab('visit')">Store Visit Booking</button>
+      <button class="tab-btn" id="tab-return" onclick="setTab('return')">Stock Return</button>
+    </div>
+
+    <!-- Complaint -->
+    <div id="frm-complaint">
+      <div class="success-notice" id="suc-complaint">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="7"/><path d="M5 8l2 2 4-4"/></svg>
+        Complaint submitted successfully. The team will follow up within 24 hours.
+      </div>
+      <div class="form-card">
+        <div class="form-card-header">
+          <div class="form-card-title">Complaints &amp; Feedback Form</div>
+          <div class="form-card-sub">Log customer complaints and feedback. Submitted data is sent to Google Sheets for tracking.</div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Customer Name</label><input type="text" placeholder="Full name"></div>
+          <div class="field"><label>Account Number</label><input type="text" placeholder="e.g. OLY-00123"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Contact Number</label><input type="tel" placeholder="+27 00 000 0000"></div>
+          <div class="field"><label>Email Address</label><input type="email" placeholder="customer@email.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Store / Region</label><input type="text" placeholder="Store name or area"></div>
+          <div class="field"><label>Product Involved</label><input type="text" placeholder="Product name / code"></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Complaint Type</label>
+            <select>
+              <option>Product quality</option><option>Delivery / logistics</option>
+              <option>Pricing dispute</option><option>Merchandising issue</option>
+              <option>Customer service</option><option>Other</option>
+            </select>
+          </div>
+          <div class="field"><label>Priority</label>
+            <select>
+              <option>Low</option><option>Medium</option>
+              <option selected>High</option><option>Urgent</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row full">
+          <div class="field"><label>Description</label><textarea placeholder="Describe the complaint in detail — include any relevant context, what the customer experienced, and what outcome they expect..."></textarea></div>
+        </div>
+        <div class="form-row full">
+          <div class="field">
+            <label>Customer Satisfaction Rating</label>
+            <div class="stars" id="stars-complaint">
+              <button class="star" onclick="rate('complaint',1)">1</button>
+              <button class="star" onclick="rate('complaint',2)">2</button>
+              <button class="star" onclick="rate('complaint',3)">3</button>
+              <button class="star" onclick="rate('complaint',4)">4</button>
+              <button class="star" onclick="rate('complaint',5)">5</button>
+            </div>
+            <span class="field-note">1 = Very dissatisfied &nbsp;·&nbsp; 5 = Very satisfied</span>
+          </div>
+        </div>
+        <div class="form-footer">
+          <span class="form-footer-note">📋 Data submits to Google Sheets</span>
+          <button class="submit-btn" onclick="submitForm('complaint')">
+            Submit Complaint
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Subscription — JotForm embed -->
+    <div id="frm-email" style="display:none">
+      <div class="form-card" style="padding:0;overflow:hidden">
+        <div class="form-card-header" style="padding:1.5rem 2rem 1.25rem;border-bottom:1px solid var(--border)">
+          <div class="form-card-title">Olympic Paints Email Subscription</div>
+          <div class="form-card-sub">Powered by JotForm — submissions go directly to your JotForm account.</div>
+        </div>
+        <div style="padding:0">
+          <iframe
+            id="JotFormIFrame-260551758128057"
+            title="Olympic Paints Email Subscription"
+            onload="window.parent.scrollTo(0,0)"
+            allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen"
+            src="https://form.jotform.com/260551758128057"
+            frameborder="0"
+            style="min-width:100%;max-width:100%;height:760px;border:none;display:block"
+            scrolling="yes"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Store Visit — JotForm embed -->
+    <div id="frm-visit" style="display:none">
+      <div class="form-card" style="padding:0;overflow:hidden">
+        <div class="form-card-header" style="padding:1.5rem 2rem 1.25rem;border-bottom:1px solid var(--border)">
+          <div class="form-card-title">Store Visit Booking Form</div>
+          <div class="form-card-sub">Powered by JotForm — submissions go directly to your JotForm account.</div>
+        </div>
+        <div style="padding:0">
+          <iframe
+            id="JotFormIFrame-260431710573046"
+            title="Store Visit Booking Form"
+            onload="window.parent.scrollTo(0,0)"
+            allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen"
+            src="https://form.jotform.com/260431710573046"
+            frameborder="0"
+            style="min-width:100%;max-width:100%;height:900px;border:none;display:block"
+            scrolling="yes"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock Return — JotForm embed -->
+    <div id="frm-return" style="display:none">
+      <div class="form-card" style="padding:0;overflow:hidden">
+        <div class="form-card-header" style="padding:1.5rem 2rem 1.25rem;border-bottom:1px solid var(--border)">
+          <div class="form-card-title">Olympic Paints – Stock Return Form</div>
+          <div class="form-card-sub">Powered by JotForm — submissions go directly to your JotForm account.</div>
+        </div>
+        <div style="padding:0">
+          <iframe
+            id="JotFormIFrame-260113502715040"
+            title="Olympic Paints Stock Return Form"
+            onload="window.parent.scrollTo(0,0)"
+            allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen"
+            src="https://form.jotform.com/260113502715040"
+            frameborder="0"
+            style="min-width:100%;max-width:100%;height:900px;border:none;display:block"
+            scrolling="yes"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MARKETING ═══ -->
+<div class="page" id="page-marketing">
+  <div class="content" style="padding-top:2rem">
+    <div class="section-heading">
+      <h2>Marketing Materials</h2>
+      <p>Price lists, technical data sheets, safety data sheets and product guides</p>
+      <div class="underline"></div>
+    </div>
+    <div class="notice-bar">
+      <strong>⚠ Placeholder links</strong> — Replace each "Add link" with your Google Drive or direct file URL.
+    </div>
+
+    <div class="mat-section">
+      <div class="mat-section-label">Price Lists</div>
+      <div class="mat-grid">
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon pdf">📄</div>
+            <div>
+              <div class="mat-name">Trade Price List 2025</div>
+              <div class="mat-meta">PDF · Updated Jan 2025</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon pdf">📄</div>
+            <div>
+              <div class="mat-name">Retail Price List 2025</div>
+              <div class="mat-meta">PDF · Updated Jan 2025</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon pdf">📄</div>
+            <div>
+              <div class="mat-name">Promotions &amp; Specials</div>
+              <div class="mat-meta">PDF · Q2 2025</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mat-section">
+      <div class="mat-section-label">Technical Data Sheets (TDS)</div>
+      <div class="mat-grid">
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon tds">🔬</div>
+            <div>
+              <div class="mat-name">Interior Emulsion TDS</div>
+              <div class="mat-meta">PDF · TDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon tds">🔬</div>
+            <div>
+              <div class="mat-name">Exterior Textured TDS</div>
+              <div class="mat-meta">PDF · TDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon tds">🔬</div>
+            <div>
+              <div class="mat-name">Primer &amp; Undercoat TDS</div>
+              <div class="mat-meta">PDF · TDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon tds">🔬</div>
+            <div>
+              <div class="mat-name">Roof Paint TDS</div>
+              <div class="mat-meta">PDF · TDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon tds">🔬</div>
+            <div>
+              <div class="mat-name">Wood &amp; Metal TDS</div>
+              <div class="mat-meta">PDF · TDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mat-section">
+      <div class="mat-section-label">Safety Data Sheets (MSDS)</div>
+      <div class="mat-grid">
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon msds">⚠️</div>
+            <div>
+              <div class="mat-name">Interior Paints MSDS</div>
+              <div class="mat-meta">PDF · MSDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon msds">⚠️</div>
+            <div>
+              <div class="mat-name">Exterior Paints MSDS</div>
+              <div class="mat-meta">PDF · MSDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon msds">⚠️</div>
+            <div>
+              <div class="mat-name">Solvents &amp; Thinners MSDS</div>
+              <div class="mat-meta">PDF · MSDS</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mat-section">
+      <div class="mat-section-label">Product Guides &amp; Brochures</div>
+      <div class="mat-grid">
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon doc">📖</div>
+            <div>
+              <div class="mat-name">Olympic Paints Product Guide 2025</div>
+              <div class="mat-meta">PDF · Brochure</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon doc">📖</div>
+            <div>
+              <div class="mat-name">Colour Collection Guide</div>
+              <div class="mat-meta">PDF · Brochure</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon doc">📖</div>
+            <div>
+              <div class="mat-name">Application Guide — Interior</div>
+              <div class="mat-meta">PDF · Guide</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon doc">📖</div>
+            <div>
+              <div class="mat-name">Application Guide — Exterior</div>
+              <div class="mat-meta">PDF · Guide</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon doc">📖</div>
+            <div>
+              <div class="mat-name">Contractor Training Manual</div>
+              <div class="mat-meta">PDF · Guide</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+        <div class="mat-card">
+          <div class="mat-card-top">
+            <div class="mat-file-icon doc">📖</div>
+            <div>
+              <div class="mat-name">Trade Specifier Guide</div>
+              <div class="mat-meta">PDF · Guide</div>
+            </div>
+          </div>
+          <div class="mat-tag pending">Link pending</div>
+          <div class="mat-action">+ Add link</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MERCHANDISING ═══ -->
+<div class="page" id="page-merchandising">
+  <div class="content" style="padding-top:2rem">
+    <div class="section-heading">
+      <h2>Merchandising Reports</h2>
+      <p>Google Drive report links — each SM sees only their own reports</p>
+      <div class="underline"></div>
+    </div>
+    <div class="merch-toolbar">
+      <div class="merch-sm-tag" id="merch-sm-label">Your reports</div>
+      <button class="add-btn" onclick="openModal()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="2"><line x1="6.5" y1="1" x2="6.5" y2="12"/><line x1="1" y1="6.5" x2="12" y2="6.5"/></svg>
+        Add Report Link
+      </button>
+    </div>
+    <div class="merch-table-wrap">
+      <table class="merch-table">
+        <thead>
+          <tr>
+            <th>Store / Area</th>
+            <th>Report Name</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Drive Link</th>
+          </tr>
+        </thead>
+        <tbody id="merch-tbody">
+          <tr class="empty-row"><td colspan="5">No reports yet. Add your first report using the button above.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px;color:var(--text-muted);margin-top:1rem">Links open in Google Drive. Ensure your Drive folder is shared with appropriate team members.</p>
+  </div>
+</div>
+
+<!-- ═══ MODAL ═══ -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-title">Add Merchandising Report</div>
+    <div class="modal-row">
+      <div class="modal-field"><label>Store / Area</label><input type="text" id="m-store" placeholder="Store name"></div>
+      <div class="modal-field"><label>Visit Date</label><input type="date" id="m-date"></div>
+    </div>
+    <div class="modal-field"><label>Report Name</label><input type="text" id="m-name" placeholder="e.g. Monthly Merch Check — Clicks Benoni"></div>
+    <div class="modal-field"><label>Google Drive Link</label><input type="url" id="m-link" placeholder="https://drive.google.com/..."></div>
+    <div class="modal-field">
+      <label>Status</label>
+      <select id="m-status">
+        <option value="new">New</option>
+        <option value="pending">Pending review</option>
+      </select>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="submit-btn" onclick="addReport()">
+        Add Report
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PINS={AC:'1234',AP:'2345',BV:'3456',BM:'4567',NP:'5678'};
+const SM_NAMES={AC:'Aboo Cassim',AP:'Amit Patel',BV:'Bhadresh Vallabh',BM:'Byron Minnie',NP:'Nikhil Panchal'};
+const PAGES=['dashboard','forms','marketing','merchandising'];
+let sm=null;
+const reports={AC:[],AP:[],BV:[],BM:[],NP:[]};
+
+function doLogin(){
+  const s=document.getElementById('login-sm').value;
+  const p=document.getElementById('login-pin').value;
+  const err=document.getElementById('login-error');
+  if(!s){err.style.display='block';err.textContent='Please select your name.';return}
+  if(PINS[s]!==p){err.style.display='block';err.textContent='Incorrect PIN — please try again.';return}
+  err.style.display='none';
+  sm=s;
+  document.getElementById('page-login').style.display='none';
+  document.getElementById('main-nav').style.display='flex';
+  document.getElementById('nav-sm-badge').textContent=SM_NAMES[sm];
+  const h=new Date().getHours();
+  const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
+  document.getElementById('hero-greeting').textContent=g+', '+SM_NAMES[sm].split(' ')[0];
+  document.getElementById('merch-sm-label').textContent='Showing reports for '+SM_NAMES[sm];
+  showPage('dashboard');
+  renderReports();
+}
+
+function doLogout(){
+  sm=null;
+  document.getElementById('page-login').style.display='flex';
+  document.getElementById('main-nav').style.display='none';
+  document.getElementById('login-pin').value='';
+  document.getElementById('login-sm').value='';
+  PAGES.forEach(p=>document.getElementById('page-'+p).classList.remove('active'));
+}
+
+function showPage(p){
+  PAGES.forEach(id=>{
+    const el=document.getElementById('page-'+id);
+    el.classList.remove('active');
+    el.style.display='none';
+  });
+  document.getElementById('page-'+p).style.display='block';
+  setTimeout(()=>document.getElementById('page-'+p).classList.add('active'),10);
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+  const nl=document.getElementById('nl-'+p);
+  if(nl)nl.classList.add('active');
+}
+
+function setTab(t){
+  ['complaint','email','visit','return'].forEach(f=>{
+    document.getElementById('frm-'+f).style.display=f===t?'block':'none';
+    document.getElementById('tab-'+f).classList.toggle('active',f===t);
+  });
+}
+
+function rate(form,val){
+  document.querySelectorAll('#stars-'+form+' .star').forEach((s,i)=>s.classList.toggle('on',i<val));
+}
+
+function submitForm(type){
+  const el=document.getElementById('suc-'+type);
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),5000);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+
+function addReport(){
+  const store=document.getElementById('m-store').value.trim();
+  const name=document.getElementById('m-name').value.trim();
+  const link=document.getElementById('m-link').value.trim();
+  const date=document.getElementById('m-date').value;
+  const status=document.getElementById('m-status').value;
+  if(!store||!name||!link){alert('Please fill in Store, Report Name and Drive Link.');return}
+  reports[sm].push({store,name,link,date,status});
+  document.getElementById('stat-reports').textContent=reports[sm].length;
+  closeModal();
+  renderReports();
+  document.getElementById('m-store').value='';
+  document.getElementById('m-name').value='';
+  document.getElementById('m-link').value='';
+  document.getElementById('m-date').value='';
+}
+
+function renderReports(){
+  const tbody=document.getElementById('merch-tbody');
+  const r=reports[sm];
+  if(!r||r.length===0){
+    tbody.innerHTML='<tr class="empty-row"><td colspan="5">No reports yet. Add your first report using the button above.</td></tr>';
+    return;
+  }
+  tbody.innerHTML=r.map(row=>`
+    <tr>
+      <td>${row.store}</td>
+      <td style="font-weight:500">${row.name}</td>
+      <td style="color:var(--text-secondary)">${row.date||'—'}</td>
+      <td><span class="badge ${row.status}">${row.status==='new'?'New':'Pending'}</span></td>
+      <td><a class="drive-link" href="${row.link}" target="_blank" rel="noopener">Open in Drive ↗</a></td>
+    </tr>
+  `).join('');
+}
+
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal()});
+</script>
+</body>
+</html>

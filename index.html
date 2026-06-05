@@ -352,6 +352,59 @@ nav{
 }
 .btn-ghost:hover{border-color:var(--border-strong);color:var(--text-primary)}
 
+/* ─── SALES DASHBOARD ─── */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2.5rem}
+.kpi-bubble{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.4rem 1.25rem 1.2rem;
+  display:flex;flex-direction:column;gap:5px;
+}
+.kpi-eyebrow{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted)}
+.kpi-val{font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--dark);line-height:1.05}
+.kpi-sub{font-size:12px;color:var(--text-secondary);margin-top:2px}
+.kpi-delta{font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:4px;margin-top:4px;padding:3px 9px;border-radius:10px}
+.kpi-delta.up{color:var(--success);background:var(--success-light)}
+.kpi-delta.down{color:var(--danger);background:var(--danger-light)}
+.kpi-delta.neutral{color:var(--warning);background:var(--warning-light)}
+
+.quarter-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:2.5rem}
+.q-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.75rem 1.75rem 1.5rem;
+  display:flex;flex-direction:column;
+}
+.q-card-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem;padding-bottom:1rem;border-bottom:1px solid var(--border)}
+.q-label{font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--dark)}
+.q-period{font-size:12px;color:var(--text-muted);letter-spacing:0.3px}
+.q-live-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;
+  color:var(--teal);background:var(--teal-light);
+  padding:3px 9px;border-radius:8px;
+}
+.q-live-dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.35}}
+.q-actual{font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--dark);line-height:1;margin-bottom:0.2rem}
+.q-actual-label{font-size:11px;color:var(--text-muted);margin-bottom:1rem}
+.q-progress-wrap{margin-bottom:1rem}
+.q-progress-bar{height:7px;background:var(--teal-light);border-radius:4px;overflow:hidden}
+.q-progress-fill{height:100%;background:var(--teal);border-radius:4px;transition:width 0.5s ease}
+.q-progress-pct{font-size:11px;color:var(--text-secondary);margin-top:4px;font-weight:500}
+.q-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;margin-bottom:1rem}
+.q-stat-box{background:var(--surface);border-radius:var(--radius-xs);padding:0.85rem 1rem}
+.q-stat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:4px}
+.q-stat-val{font-size:15px;font-weight:600;color:var(--dark)}
+.q-stat-delta{font-size:11px;font-weight:600;margin-top:3px}
+.delta-up{color:var(--success)}
+.delta-down{color:var(--danger)}
+.delta-neutral{color:var(--warning)}
+.q-months{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.5rem;border-top:1px solid var(--border);padding-top:1.1rem;margin-top:auto}
+.q-month-cell{text-align:center;background:var(--surface);border-radius:var(--radius-xs);padding:0.7rem 0.4rem}
+.q-month-cell.current{background:rgba(26,95,87,0.06);border:1px solid rgba(26,95,87,0.12)}
+.q-month-name{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text-muted);margin-bottom:4px}
+.q-month-val{font-size:13px;font-weight:600;color:var(--dark)}
+.q-month-yoy{font-size:10px;margin-top:2px}
+
 /* ─── RESPONSIVE ─── */
 @media(max-width:768px){
   .quick-grid{grid-template-columns:1fr 1fr}
@@ -364,10 +417,13 @@ nav{
   nav{padding:0 1rem}
   .nav-links{display:none}
   .content{padding:1.5rem 1rem}
+  .kpi-row{grid-template-columns:1fr 1fr}
+  .quarter-grid{grid-template-columns:1fr}
 }
 @media(max-width:480px){
   .quick-grid{grid-template-columns:1fr}
   .login-card{padding:2rem 1.5rem}
+  .kpi-row{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
@@ -414,6 +470,7 @@ nav{
     <button class="nav-link" id="nl-forms" onclick="showPage('forms')">Forms</button>
     <button class="nav-link" id="nl-marketing" onclick="showPage('marketing')">Marketing</button>
     <button class="nav-link" id="nl-merchandising" onclick="showPage('merchandising')">Merchandising</button>
+    <button class="nav-link" id="nl-sales" onclick="showPage('sales')">Sales</button>
   </div>
   <div class="nav-right">
     <span class="sm-badge" id="nav-sm-badge">SM</span>
@@ -479,7 +536,7 @@ nav{
           <span class="qc-arrow">↗</span>
         </div>
         <div class="qc-title">Store Visit Form</div>
-        <div class="qc-desc">Book and document an upcoming merchandising store visit via JotForm.</div>
+        <div class="qc-desc">Book and document an upcoming merchandising store visit. Logged to Supabase with live store search.</div>
       </div>
       <div class="quick-card" onclick="showPage('forms');setTab('return')">
         <div class="qc-top">
@@ -524,66 +581,25 @@ nav{
       <button class="tab-btn" id="tab-return" onclick="setTab('return')">Stock Return</button>
     </div>
 
-    <!-- Complaint -->
+    <!-- Complaint — JotForm embed -->
     <div id="frm-complaint">
-      <div class="success-notice" id="suc-complaint">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="8" r="7"/><path d="M5 8l2 2 4-4"/></svg>
-        Complaint submitted successfully. The team will follow up within 24 hours.
-      </div>
-      <div class="form-card">
-        <div class="form-card-header">
-          <div class="form-card-title">Complaints &amp; Feedback Form</div>
-          <div class="form-card-sub">Log customer complaints and feedback. Submitted data is sent to Google Sheets for tracking.</div>
+      <div class="form-card" style="padding:0;overflow:hidden">
+        <div class="form-card-header" style="padding:1.5rem 2rem 1.25rem;border-bottom:1px solid var(--border)">
+          <div class="form-card-title">Olympic Paints Customer Feedback &amp; Complaint Form</div>
+          <div class="form-card-sub">Powered by JotForm — submissions go directly to your JotForm account.</div>
         </div>
-        <div class="form-row">
-          <div class="field"><label>Customer Name</label><input type="text" placeholder="Full name"></div>
-          <div class="field"><label>Account Number</label><input type="text" placeholder="e.g. OLY-00123"></div>
-        </div>
-        <div class="form-row">
-          <div class="field"><label>Contact Number</label><input type="tel" placeholder="+27 00 000 0000"></div>
-          <div class="field"><label>Email Address</label><input type="email" placeholder="customer@email.com"></div>
-        </div>
-        <div class="form-row">
-          <div class="field"><label>Store / Region</label><input type="text" placeholder="Store name or area"></div>
-          <div class="field"><label>Product Involved</label><input type="text" placeholder="Product name / code"></div>
-        </div>
-        <div class="form-row">
-          <div class="field"><label>Complaint Type</label>
-            <select>
-              <option>Product quality</option><option>Delivery / logistics</option>
-              <option>Pricing dispute</option><option>Merchandising issue</option>
-              <option>Customer service</option><option>Other</option>
-            </select>
-          </div>
-          <div class="field"><label>Priority</label>
-            <select>
-              <option>Low</option><option>Medium</option>
-              <option selected>High</option><option>Urgent</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-row full">
-          <div class="field"><label>Description</label><textarea placeholder="Describe the complaint in detail — include any relevant context, what the customer experienced, and what outcome they expect..."></textarea></div>
-        </div>
-        <div class="form-row full">
-          <div class="field">
-            <label>Customer Satisfaction Rating</label>
-            <div class="stars" id="stars-complaint">
-              <button class="star" onclick="rate('complaint',1)">1</button>
-              <button class="star" onclick="rate('complaint',2)">2</button>
-              <button class="star" onclick="rate('complaint',3)">3</button>
-              <button class="star" onclick="rate('complaint',4)">4</button>
-              <button class="star" onclick="rate('complaint',5)">5</button>
-            </div>
-            <span class="field-note">1 = Very dissatisfied &nbsp;·&nbsp; 5 = Very satisfied</span>
-          </div>
-        </div>
-        <div class="form-footer">
-          <span class="form-footer-note">📋 Data submits to Google Sheets</span>
-          <button class="submit-btn" onclick="submitForm('complaint')">
-            Submit Complaint
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
-          </button>
+        <div style="padding:0">
+          <iframe
+            id="JotFormIFrame-261064556400046"
+            title="Olympic Paints Customer Feedback & Complaint Form"
+            onload="window.parent.scrollTo(0,0)"
+            allowtransparency="true"
+            allow="geolocation; microphone; camera; fullscreen"
+            src="https://form.jotform.com/261064556400046"
+            frameborder="0"
+            style="min-width:100%;max-width:100%;height:1000px;border:none;display:block"
+            scrolling="yes"
+          ></iframe>
         </div>
       </div>
     </div>
@@ -611,26 +627,22 @@ nav{
       </div>
     </div>
 
-    <!-- Store Visit — JotForm embed -->
+    <!-- Store Visit — Supabase form -->
     <div id="frm-visit" style="display:none">
       <div class="form-card" style="padding:0;overflow:hidden">
         <div class="form-card-header" style="padding:1.5rem 2rem 1.25rem;border-bottom:1px solid var(--border)">
           <div class="form-card-title">Store Visit Booking Form</div>
-          <div class="form-card-sub">Powered by JotForm — submissions go directly to your JotForm account.</div>
+          <div class="form-card-sub">Powered by Olympic Paints Forms — bookings logged to Supabase with live store search.</div>
         </div>
-        <div style="padding:0">
-          <iframe
-            id="JotFormIFrame-260431710573046"
-            title="Store Visit Booking Form"
-            onload="window.parent.scrollTo(0,0)"
-            allowtransparency="true"
-            allow="geolocation; microphone; camera; fullscreen"
-            src="https://form.jotform.com/260431710573046"
-            frameborder="0"
-            style="min-width:100%;max-width:100%;height:900px;border:none;display:block"
-            scrolling="yes"
-          ></iframe>
-        </div>
+        <iframe
+          title="Store Visit Booking Form"
+          onload="window.parent.scrollTo(0,0)"
+          allow="geolocation; fullscreen"
+          src="https://olympic-paints-forms-admin.vercel.app/store-visit-booking"
+          frameborder="0"
+          style="min-width:100%;max-width:100%;height:960px;border:none;display:block"
+          scrolling="yes"
+        ></iframe>
       </div>
     </div>
 
@@ -919,6 +931,166 @@ nav{
   </div>
 </div>
 
+<!-- ═══ SALES ═══ -->
+<div class="page" id="page-sales">
+  <div class="hero">
+    <div class="hero-bg">
+      <div class="hero-circle-1"></div>
+      <div class="hero-circle-2"></div>
+      <div class="hero-circle-3"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Olympic Paints — Financial Year 2026</div>
+      <h1 class="hero-title">Sales Analysis</h1>
+      <p class="hero-sub">Year-to-date performance against target and prior year.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="fy-ytd-hero">—</div>
+          <div class="hero-stat-label">FY2026 YTD actual</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="fy-target-hero">—</div>
+          <div class="hero-stat-label">FY2026 target</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num" id="fy-yoy-hero">—</div>
+          <div class="hero-stat-label">YoY vs FY2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- KPI Bubbles -->
+    <div class="section-heading" style="margin-bottom:1.25rem">
+      <h2>FY2026 Overview</h2>
+      <p>Year-to-date (January – June 2026)</p>
+      <div class="underline"></div>
+    </div>
+    <div class="kpi-row">
+      <div class="kpi-bubble">
+        <div class="kpi-eyebrow">YTD Actual</div>
+        <div class="kpi-val" id="kpi-ytd-actual">—</div>
+        <div class="kpi-sub">Jan – Jun 2026</div>
+      </div>
+      <div class="kpi-bubble">
+        <div class="kpi-eyebrow">FY Target</div>
+        <div class="kpi-val" id="kpi-fy-target">—</div>
+        <div class="kpi-sub">Full year 2026</div>
+        <span class="kpi-delta neutral" id="kpi-pct-target">— % to target</span>
+      </div>
+      <div class="kpi-bubble">
+        <div class="kpi-eyebrow">FY2025 Same Period</div>
+        <div class="kpi-val" id="kpi-fy2025-ytd">—</div>
+        <div class="kpi-sub">Jan – Jun 2025</div>
+        <span class="kpi-delta neutral" id="kpi-yoy">— YoY</span>
+      </div>
+      <div class="kpi-bubble">
+        <div class="kpi-eyebrow">H1 Progress</div>
+        <div class="kpi-val" id="kpi-h1-pct">—</div>
+        <div class="kpi-sub">% of FY target achieved</div>
+      </div>
+    </div>
+
+    <!-- Quarter Analysis -->
+    <div class="section-heading" style="margin-bottom:1.25rem">
+      <h2>Quarter Analysis</h2>
+      <p>Actual vs target and prior-year comparison per quarter</p>
+      <div class="underline"></div>
+    </div>
+    <div class="quarter-grid">
+
+      <!-- Q1 2026 -->
+      <div class="q-card">
+        <div class="q-card-header">
+          <div>
+            <div class="q-label">Q1 2026</div>
+            <div class="q-period">January · February · March</div>
+          </div>
+          <span style="font-size:11px;color:var(--success);font-weight:600;background:var(--success-light);padding:3px 10px;border-radius:8px">Completed</span>
+        </div>
+
+        <div class="q-actual" id="q1-actual">—</div>
+        <div class="q-actual-label">Total actual sales Q1 2026</div>
+
+        <div class="q-progress-wrap">
+          <div class="q-progress-bar">
+            <div class="q-progress-fill" id="q1-bar" style="width:0%"></div>
+          </div>
+          <div class="q-progress-pct" id="q1-pct-label">— % of Q1 target</div>
+        </div>
+
+        <div class="q-stats-grid">
+          <div class="q-stat-box">
+            <div class="q-stat-label">Q1 2026 Target</div>
+            <div class="q-stat-val" id="q1-target">—</div>
+            <div class="q-stat-delta" id="q1-vs-target">vs target —</div>
+          </div>
+          <div class="q-stat-box">
+            <div class="q-stat-label">Q1 2025 Actual</div>
+            <div class="q-stat-val" id="q1-ly">—</div>
+            <div class="q-stat-delta" id="q1-yoy">YoY —</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 2026 -->
+      <div class="q-card">
+        <div class="q-card-header">
+          <div>
+            <div class="q-label">Q2 2026</div>
+            <div class="q-period">April · May · June</div>
+          </div>
+          <div class="q-live-badge"><span class="q-live-dot"></span>In Progress</div>
+        </div>
+
+        <div class="q-actual" id="q2-actual">—</div>
+        <div class="q-actual-label" id="q2-actual-label">Total actual sales Q2 2026 (Apr + May + Jun to date)</div>
+
+        <div class="q-progress-wrap">
+          <div class="q-progress-bar">
+            <div class="q-progress-fill" id="q2-bar" style="width:0%"></div>
+          </div>
+          <div class="q-progress-pct" id="q2-pct-label">— % of Q2 target</div>
+        </div>
+
+        <div class="q-stats-grid">
+          <div class="q-stat-box">
+            <div class="q-stat-label">Q2 2026 Target</div>
+            <div class="q-stat-val" id="q2-target">—</div>
+            <div class="q-stat-delta" id="q2-vs-target">vs target —</div>
+          </div>
+          <div class="q-stat-box">
+            <div class="q-stat-label">Q2 2025 Actual</div>
+            <div class="q-stat-val" id="q2-ly">—</div>
+            <div class="q-stat-delta" id="q2-yoy">YoY —</div>
+          </div>
+        </div>
+
+        <div class="q-months">
+          <div class="q-month-cell">
+            <div class="q-month-name">April</div>
+            <div class="q-month-val" id="m-apr">—</div>
+            <div class="q-month-yoy" id="m-apr-yoy">—</div>
+          </div>
+          <div class="q-month-cell">
+            <div class="q-month-name">May</div>
+            <div class="q-month-val" id="m-may">—</div>
+            <div class="q-month-yoy" id="m-may-yoy">—</div>
+          </div>
+          <div class="q-month-cell current">
+            <div class="q-month-name">June ●</div>
+            <div class="q-month-val" id="m-jun">—</div>
+            <div class="q-month-yoy" id="m-jun-yoy">—</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /quarter-grid -->
+  </div><!-- /content -->
+</div>
+
 <!-- ═══ MODAL ═══ -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
@@ -949,9 +1121,124 @@ nav{
 <script>
 const PINS={AC:'1234',AP:'2345',BV:'3456',BM:'4567',NP:'5678'};
 const SM_NAMES={AC:'Aboo Cassim',AP:'Amit Patel',BV:'Bhadresh Vallabh',BM:'Byron Minnie',NP:'Nikhil Panchal'};
-const PAGES=['dashboard','forms','marketing','merchandising'];
+const PAGES=['dashboard','forms','marketing','merchandising','sales'];
 let sm=null;
 const reports={AC:[],AP:[],BV:[],BM:[],NP:[]};
+
+// ─── SALES DATA — update these figures each period ───────────────────────────
+// All values in Rands (e.g. 1500000 = R 1.5M). Set to null to show "—".
+const SALES_DATA = {
+  fy2026: {
+    ytd:        null,   // FY2026 YTD actual  (Jan–Jun 2026)
+    full_target:null,   // FY2026 full-year target
+    fy2025_ytd: null,   // FY2025 same period actual (Jan–Jun 2025)
+  },
+  q1_2026: {
+    actual:     null,   // Q1 2026 actual  (Jan–Mar 2026)
+    target:     null,   // Q1 2026 target
+    q1_2025:    null,   // Q1 2025 actual  (Jan–Mar 2025)
+  },
+  q2_2026: {
+    target:     null,   // Q2 2026 target
+    q2_2025:    null,   // Q2 2025 actual  (Apr–Jun 2025)
+    april:      null,   // April 2026 actual
+    may:        null,   // May 2026 actual
+    june:       null,   // June 2026 actual (partial ok — leave null until confirmed)
+    april_2025: null,   // April 2025 actual
+    may_2025:   null,   // May 2025 actual
+    june_2025:  null,   // June 2025 actual
+  }
+};
+
+// ─── Formatting helpers ───────────────────────────────────────────────────────
+function fmtR(v){
+  if(v===null||v===undefined)return'—';
+  if(Math.abs(v)>=1e6)return'R '+(v/1e6).toFixed(2)+'M';
+  if(Math.abs(v)>=1e3)return'R '+(v/1e3).toFixed(1)+'K';
+  return'R '+v.toLocaleString();
+}
+function fmtPct(a,b){
+  if(a===null||b===null||b===0)return{txt:'—',cls:'delta-neutral'};
+  const p=((a-b)/b*100);
+  const s=(p>=0?'+':'')+p.toFixed(1)+'%';
+  return{txt:s,cls:p>=0?'delta-up':'delta-down'};
+}
+function setEl(id,v){const e=document.getElementById(id);if(e)e.textContent=v;}
+function setDelta(id,obj){
+  const e=document.getElementById(id);
+  if(!e)return;
+  e.textContent=obj.txt;
+  e.className='q-stat-delta '+(obj.cls||'delta-neutral');
+}
+function setBar(id,pct){
+  const e=document.getElementById(id);
+  if(e)e.style.width=Math.min(100,Math.max(0,pct||0))+'%';
+}
+
+function renderSales(){
+  const d=SALES_DATA;
+
+  // ── FY overview ──────────────────────────────────────────────────────────
+  const ytd=d.fy2026.ytd, tgt=d.fy2026.full_target, ly=d.fy2026.fy2025_ytd;
+  setEl('kpi-ytd-actual',fmtR(ytd));
+  setEl('kpi-fy-target',fmtR(tgt));
+  setEl('kpi-fy2025-ytd',fmtR(ly));
+
+  if(ytd!==null&&tgt!==null&&tgt>0){
+    const p=(ytd/tgt*100).toFixed(1);
+    const el=document.getElementById('kpi-pct-target');
+    if(el){el.textContent=p+'% to target';el.className='kpi-delta '+(p>=100?'up':p>=80?'neutral':'down');}
+    setEl('kpi-h1-pct',p+'%');
+  }
+  const yoyFY=fmtPct(ytd,ly);
+  const yoyEl=document.getElementById('kpi-yoy');
+  if(yoyEl){yoyEl.textContent=yoyFY.txt+' YoY';yoyEl.className='kpi-delta '+(yoyFY.cls==='delta-up'?'up':yoyFY.cls==='delta-down'?'down':'neutral');}
+
+  const heroYTD=fmtR(ytd);
+  setEl('fy-ytd-hero',heroYTD);
+  setEl('fy-target-hero',fmtR(tgt));
+  if(ytd!==null&&ly!==null&&ly>0){
+    const p=fmtPct(ytd,ly);
+    setEl('fy-yoy-hero',p.txt);
+  }
+
+  // ── Q1 ───────────────────────────────────────────────────────────────────
+  const q1a=d.q1_2026.actual, q1t=d.q1_2026.target, q1ly=d.q1_2026.q1_2025;
+  setEl('q1-actual',fmtR(q1a));
+  setEl('q1-target',fmtR(q1t));
+  setEl('q1-ly',fmtR(q1ly));
+  setDelta('q1-vs-target',q1a!==null&&q1t!==null?fmtPct(q1a,q1t):{txt:'vs target —',cls:'delta-neutral'});
+  setDelta('q1-yoy',q1a!==null&&q1ly!==null?fmtPct(q1a,q1ly):{txt:'YoY —',cls:'delta-neutral'});
+  if(q1a!==null&&q1t!==null&&q1t>0){
+    const p=q1a/q1t*100;
+    setBar('q1-bar',p);
+    setEl('q1-pct-label',p.toFixed(1)+'% of Q1 target');
+  }
+
+  // ── Q2 ───────────────────────────────────────────────────────────────────
+  const apr=d.q2_2026.april, may=d.q2_2026.may, jun=d.q2_2026.june;
+  const q2a=(apr===null&&may===null&&jun===null)?null:(apr||0)+(may||0)+(jun||0);
+  const q2t=d.q2_2026.target, q2ly=d.q2_2026.q2_2025;
+  setEl('q2-actual',fmtR(q2a));
+  setEl('q2-target',fmtR(q2t));
+  setEl('q2-ly',fmtR(q2ly));
+  setDelta('q2-vs-target',q2a!==null&&q2t!==null?fmtPct(q2a,q2t):{txt:'vs target —',cls:'delta-neutral'});
+  setDelta('q2-yoy',q2a!==null&&q2ly!==null?fmtPct(q2a,q2ly):{txt:'YoY —',cls:'delta-neutral'});
+  if(q2a!==null&&q2t!==null&&q2t>0){
+    const p=q2a/q2t*100;
+    setBar('q2-bar',p);
+    setEl('q2-pct-label',p.toFixed(1)+'% of Q2 target');
+  }
+
+  // Monthly cells
+  const a25=d.q2_2026.april_2025, m25=d.q2_2026.may_2025, j25=d.q2_2026.june_2025;
+  setEl('m-apr',fmtR(apr));
+  setEl('m-may',fmtR(may));
+  setEl('m-jun',jun!==null?fmtR(jun):'In progress');
+  const aprD=fmtPct(apr,a25); setEl('m-apr-yoy',a25!==null&&apr!==null?'vs 2025: '+aprD.txt:'vs 2025: —');
+  const mayD=fmtPct(may,m25); setEl('m-may-yoy',m25!==null&&may!==null?'vs 2025: '+mayD.txt:'vs 2025: —');
+  const junD=fmtPct(jun,j25); setEl('m-jun-yoy',j25!==null&&jun!==null?'vs 2025: '+junD.txt:'vs 2025: —');
+}
 
 function doLogin(){
   const s=document.getElementById('login-sm').value;
@@ -968,7 +1255,10 @@ function doLogin(){
   const g=h<12?'Good morning':h<17?'Good afternoon':'Good evening';
   document.getElementById('hero-greeting').textContent=g+', '+SM_NAMES[sm].split(' ')[0];
   document.getElementById('merch-sm-label').textContent='Showing reports for '+SM_NAMES[sm];
-  showPage('dashboard');
+  renderSales();
+  const path=window.location.pathname;
+  if(path==='/d/sales')showPage('sales');
+  else showPage('dashboard');
   renderReports();
 }
 
@@ -978,7 +1268,7 @@ function doLogout(){
   document.getElementById('main-nav').style.display='none';
   document.getElementById('login-pin').value='';
   document.getElementById('login-sm').value='';
-  PAGES.forEach(p=>document.getElementById('page-'+p).classList.remove('active'));
+  PAGES.forEach(p=>{const el=document.getElementById('page-'+p);el.classList.remove('active');el.style.display='none';});
 }
 
 function showPage(p){
